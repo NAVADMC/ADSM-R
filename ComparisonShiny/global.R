@@ -1,27 +1,23 @@
+
 #
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
 # Find out more about building applications with Shiny here:
 #
+#ADSM-Shiny
+#This should be the folder in which the folder "ADSMDemo" resides.
+#make all slashes either double \\ or backslashes /
+setwd("~/CEAH/ADSM_Missy/ADSM_Shiny") #user will have to point their setting directory
 
-library("shiny")
-library("RSQLite") #to connect to SQLite from R (this is what I am using)
-library("DBI") #(this is what I am using)
-library("ggplot2")#to do graphs
-library("knitr")#to do rmarkdown documents
-library("gridExtra") #to do grid.arrange (multiple graphs in one window)
-library ("igraph")# to make network graphs (graph.data.frame)
-library("reshape") #melt function
-library("maps") #to create maps
-library("plotly") #to create dynamic plots in r
-library("xlsx")
-library("leaflet")
-library("jpeg")
-library("rmarkdown")
+list.of.packages <- c("ggplot2", "shiny","plotly","xlsx", "jpeg","leaflet","RSQLite","DBI","knitr","gridExtra","igraph",
+                      "reshape","maps","rmarkdown")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
 
-
-      
+library(shiny)
+#This should be the name of the Folder containing the app and shouldn't need to be changed
+     
 setwd("~/CEAH/ADSM_Missy/R code basics")
     
     
