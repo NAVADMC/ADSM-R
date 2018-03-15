@@ -21,8 +21,9 @@ server <- function(input, output, session) {
     # Use leaflet() here, and only include aspects of the map that
     # won't need to change dynamically (at least, not unless the
     # entire map is being torn down and recreated).
-    leaflet(MapMaster) %>% addTiles() %>%
-      fitBounds(~min(Lon), ~min(Lat), ~max(Lon), ~max(Lat))
+    leaflet(data = mapWorld) %>% addTiles() %>%
+      addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+      fitBounds(~min(MapMaster$Lon), ~min(MapMaster$Lat), ~max(MapMaster$Lon), ~max(MapMaster$Lat))
   })
   
   # Incremental changes to the map (in this case, replacing the
@@ -32,7 +33,6 @@ server <- function(input, output, session) {
   observe({
     
     leafletProxy("map", data = filteredDataW()) %>%
-      clearShapes() %>%
       addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1) 
   })
   
@@ -55,8 +55,9 @@ server <- function(input, output, session) {
     # Use leaflet() here, and only include aspects of the map that
     # won't need to change dynamically (at least, not unless the
     # entire map is being torn down and recreated).
-    leaflet(MapMaster) %>% addTiles() %>%
-      fitBounds(~min(Lon), ~min(Lat), ~max(Lon), ~max(Lat))
+    leaflet(data = mapWorld) %>% addTiles() %>%
+      addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+      fitBounds(~min(MapMaster$Lon), ~min(MapMaster$Lat), ~max(MapMaster$Lon), ~max(MapMaster$Lat))
   })
   
   # Incremental changes to the map (in this case, replacing the
@@ -66,7 +67,6 @@ server <- function(input, output, session) {
   observe({
     
     leafletProxy("map2", data = filteredDataD()) %>%
-      clearShapes() %>%
       addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1) 
   })
   
