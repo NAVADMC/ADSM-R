@@ -344,5 +344,5 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
                        "Production Type:", MapMaster$ProductionType,
                        "Size:",MapMaster$UnitSize)
       
-      
+      mapWorld = map("world", fill = TRUE, plot = F)# data of world polygon
       
