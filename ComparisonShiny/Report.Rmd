@@ -8,7 +8,7 @@ output:
   pdf_document: default
 params:
     scenario_variable: NA
-    week: NA
+    Week: NA
     Day: NA
 always_allow_html: yes
 ---
@@ -107,14 +107,7 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
     S4farm<-as.data.frame(S4farm)
     
     
-    AllSceFarm<-rbind(S1farm,S2farm,S3farm,S4farm)
-    
-    
-    net1<-graph.data.frame(S1farm,directed=F)#specified edges of a directed farm
-    net2<-graph.data.frame(S2farm,directed=F)#specified edges of a directed farm
-    net3<-graph.data.frame(S3farm,directed=F)#specified edges of a directed farm
-    net4<-graph.data.frame(S4farm,directed=F)#specified edges of a directed farm
-    
+      
     
 
       conCCMoore21Late <- dbConnect(RSQLite::SQLite(), "~/CEAH/ADSM_Missy/R code basics/ModSim18_CC_Moore_21Late/ModSim18_CC_Moore_21Late.sqlite3")
@@ -360,7 +353,8 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
                        "ID:", MapMaster$ID,
                        "Production Type:", MapMaster$ProductionType,
                        "Size:",MapMaster$UnitSize)
-      
+                       
+mapWorld = map("world", fill = TRUE, plot = F)# data of world polygon      
 
 ```
 
@@ -374,7 +368,7 @@ Add information or description of corresponding outputs
 
  #Outbreak Characteristics
     
-    EPI<-ggplot(EPICURVE[(EPICURVE$Scenario) %in% (params$scenario_variable),],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
+    EPI<-ggplot(EPICURVE[(EPICURVE$Scenario) %in% params$scenario_variable,],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
       geom_line(size=1)+
       labs(title="Epidemic Curve",x="Time (days)", y = "New Infected Units")
     
@@ -382,26 +376,26 @@ Add information or description of corresponding outputs
 
   
   
-myplot4 <- qplot(Scenario, diseaseDuration, geom=c("boxplot"), data=OUTBREAKDUR[(OUTBREAKDUR$Scenario)%in% params$scenario_variable,],
+myplot4 <- qplot(Scenario, diseaseDuration, geom=c("boxplot"), data=OUTBREAKDUR[(OUTBREAKDUR$Scenario) %in% params$scenario_variable,],
               fill=Scenario, main="Outbreak duration",
               xlab="", ylab="Duration (days)")
   myplot4 
   
   
   
-myplot5 <- qplot(Scenario, infcU, geom=c("boxplot"), data=TFO[(TFO$Scenario)%in% params$scenario_variable,],
+myplot5 <- qplot(Scenario, infcU, geom=c("boxplot"), data=TFO[(TFO$Scenario) %in% params$scenario_variable,],
               fill=Scenario, main="Farms in outbreak",
               xlab="", ylab="Units")
   myplot5
   
 
-myplot6 <- qplot(Scenario, descU, geom=c("boxplot"), data=FD[(FD$Scenario)%in% params$scenario_variable,],
+myplot6 <- qplot(Scenario, descU, geom=c("boxplot"), data=FD[(FD$Scenario) %in% params$scenario_variable,],
               fill=Scenario, main="Farms depopulated",
               xlab="", ylab="Units")
   myplot6  
 
   
-myplot6.5 <- qplot(Scenario, vaccU, geom=c("boxplot"), data=VaccUnit[(VaccUnit$Scenario)%in% params$scenario_variable,],
+myplot6.5 <- qplot(Scenario, vaccU, geom=c("boxplot"), data=VaccUnit[(VaccUnit$Scenario) %in% params$scenario_variable,],
         fill=Scenario, main="Units Vaccinated",
         xlab="", ylab="Farms vaccinated")
     
@@ -420,16 +414,16 @@ Add information or description of corresponding outputs
   
 #   # # Reactive expression for the data subsetted to what the user selected
  filteredDataW <- 
-     MapMaster[MapMaster$Type=="Infection"& MapMaster$Week ==(params$week),]
+     MapMaster[MapMaster$Type=="Infection"& MapMaster$Week ==(params$Week),]
 
-m =leaflet(MapMaster) %>% addTiles() %>%
-      fitBounds(~min(Lon), ~min(Lat), ~max(Lon), ~max(Lat))
-df = data.frame(filteredDataW)
-m = leaflet(df) %>% addTiles()
-m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1)
+dfW = data.frame(filteredDataW)
+m=leaflet(data = mapWorld) %>% addTiles() %>%
+  addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+ fitBounds(~min(dfW$Lon), ~min(dfW$Lat), ~max(dfW$Lon), ~max(dfW$Lat))
+m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1, data=dfW)
 
 
-myplot1 <- qplot(Type, geom=c("bar"), data=MapMaster[(MapMaster$Week)==(params$week),],
+myplot1 <- qplot(Type, geom=c("bar"), data=MapMaster[(MapMaster$Week)==(params$Week),],
               fill=Type, main="Veterinary Action")+
       theme_void()
 
@@ -438,14 +432,11 @@ myplot1 <- qplot(Type, geom=c("bar"), data=MapMaster[(MapMaster$Week)==(params$w
   # # Reactive expression for the data subsetted to what the user selected
   filteredDataD <- MapMaster[MapMaster$Type=="Infection" & MapMaster$Day ==(params$Day),]
 
-
-
-m =leaflet(MapMaster) %>% addTiles() %>%
-      fitBounds(~min(Lon), ~min(Lat), ~max(Lon), ~max(Lat))
 df = data.frame(filteredDataD)
-m = leaflet(df) %>% addTiles()
-m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1)
-
+m=leaflet(data = mapWorld) %>% addTiles() %>%
+  addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+ fitBounds(~min(df$Lon), ~min(df$Lat), ~max(df$Lon), ~max(df$Lat))
+m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1, data=df)
   
 ```
 
@@ -464,18 +455,24 @@ myplot7 <- ggplot(Ty[(Ty$Scenario)%in% params$scenario_variable,], aes(x="", y=F
       facet_grid(facets=.~Scenario)+
       xlab("") 
   myplot7
+```
     
+##Netwrok visualization
 
-myplot8 <- 
+```{r,echo=F}
+net1<-graph.data.frame(S1farm[S1farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
+  net2<-graph.data.frame(S2farm[S2farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
+  net3<-graph.data.frame(S3farm[S3farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
+  net4<-graph.data.frame(S4farm[S4farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
     
-   par(mfrow=c(1,4), mar=c(0,0,5,0))
-
-
+   
     plot(net2,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Early")
+    
     plot(net1,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Late")
+    
     plot(net4,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Early")
+    
     plot(net3,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Late")
-
 ```
 
 
