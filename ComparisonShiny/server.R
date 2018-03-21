@@ -142,27 +142,47 @@ server <- function(input, output, session) {
   
   
   output$myplot8 <- renderPlot({
-    
-    
-    
-   par(mfrow=c(1,4), mar=c(0,0,5,0))
 
 
-    plot(net2,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Early")
+     net2<-graph.data.frame(S2farm[S2farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Early"
+
+     plot(net2,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Early")
+
+    })
+
+  output$myplot9 <- renderPlot({
+
+    net1<-graph.data.frame(S1farm[S1farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Late"
+
     plot(net1,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Late")
+
+    })
+   
+  output$myplot10 <- renderPlot({
+
+    net4<-graph.data.frame(S4farm[S4farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Early"
+
     plot(net4,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Early")
-    plot(net3,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Late")
-    
 
   })
+
+
+  output$myplot11 <- renderPlot({
+
+  net3<-graph.data.frame(S3farm[S3farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Late"
+
+  plot(net3,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Late")
+
+  })
+
   
   
   # Downloadable report ----
  
   
-   output$Report <- downloadHandler(
+    output$Report <- downloadHandler(
      filename = function () {
-       switch(input$format, PDF= 'pdf',Word='docx', HTML= 'html')
+       switch(input$format, Word='docx')
          },
      content = function(file) {
        # Copy the report file to a temporary directory before processing it, in
@@ -172,9 +192,10 @@ server <- function(input, output, session) {
        file.copy("Report.Rmd", tempReport, overwrite = TRUE)
        
        # Set up parameters to pass to Rmd document
-       params <- list(scenario_variable = input$scenario_variable, 
-                      Day = input$Day, 
-                      week = input$week)
+       params <- list(scenario_variable = input$scenario_variable,
+                      Day = input$Day,
+                      Week = input$week)
+
        
        # Knit the document, passing in the `params` list, and eval it in a
        # child of the global environment (this isolates the code in the document
@@ -187,30 +208,3 @@ server <- function(input, output, session) {
    )
 }
      
-  #   filename = function() {
-  #     switch(
-  #       input$format, PDF= 'pdf',Word='docx', HTML= 'html')
-  #   },
-  #   content = function(file) {
-  #     src<-normalizePath('Report.Rmd')
-  # 
-  # # temporarily switch to the temp dir, in case you do not have write
-  # # permission to the current working directory
-  #     owd <- setwd("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18")#tempdir())
-  #     on.exit(setwd(owd))
-  #     #browser()
-  #     file.copy(src, 'Report.Rmd', overwrite = TRUE)
-  #     
-  #     params<-list(scenario_variable=input$scenario_variable, 
-  #                    Day=input$Day, week=input$week)
-  # 
-  #  
-  #     out <- rmarkdown::render('Report.Rmd', 
-  #                   params=params,
-  #                   switch(input$format,
-  #                          PDF = pdf_document(), Word = word_document(), HTML = html_document()
-  #                   )
-  #     )
-  #           file.rename(out, file)
-  #         }
-  
