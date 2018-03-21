@@ -82,14 +82,7 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
     S4farm<-as.data.frame(S4farm)
     
     
-    AllSceFarm<-rbind(S1farm,S2farm,S3farm,S4farm)
-    
-    
-    net1<-graph.data.frame(S1farm,directed=F)#specified edges of a directed farm
-    net2<-graph.data.frame(S2farm,directed=F)#specified edges of a directed farm
-    net3<-graph.data.frame(S3farm,directed=F)#specified edges of a directed farm
-    net4<-graph.data.frame(S4farm,directed=F)#specified edges of a directed farm
-    
+       
     
     all_states<-map_data("state")
     Subset_states <- subset(all_states, region %in% c( "texas", "new mexico", "oklahoma", "arkansas", "louisiana", "colorado", "kansas") )
@@ -326,11 +319,7 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
       VaccUnit$Scenario<-c(rep("Vx Late",nrow(VaccUnit3)),rep("Vx Early",nrow(VaccUnit4)))
       
      
-      # setwd("~/CEAH/ADSM_Missy/R code basics")
-      # DState<-read.xlsx("MapDStatTest.xlsx",1)
-      # MapMaster<-read.xlsx("MapMaster.xlsx",1)
-      # 
-     
+          
       #using leaflet
       setwd("~/CEAH/ADSM_Missy/R code basics")
       MapMaster<-read.xlsx("MapMaster.xlsx",1)
