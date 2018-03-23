@@ -84,10 +84,7 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
     
        
     
-    all_states<-map_data("state")
-    Subset_states <- subset(all_states, region %in% c( "texas", "new mexico", "oklahoma", "arkansas", "louisiana", "colorado", "kansas") )
-    
-    
+       
       conCCMoore21Late <- dbConnect(RSQLite::SQLite(), "~/CEAH/ADSM_Missy/R code basics/ModSim18_CC_Moore_21Late/ModSim18_CC_Moore_21Late.sqlite3")
       conCCMooreEarly <- dbConnect(RSQLite::SQLite(), "~/CEAH/ADSM_Missy/R code basics/ModSim18_CC_Moore_Early/ModSim18_CC_Moore_Early.sqlite3")
       conCCMooreVX21Late <- dbConnect(RSQLite::SQLite(), "~/CEAH/ADSM_Missy/R code basics/ModSim18_CC_MooreVX_21Late/ModSim18_CC_MooreVX_21Late.sqlite3")
