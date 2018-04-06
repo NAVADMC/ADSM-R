@@ -154,12 +154,6 @@ server <- function(input, output, session) {
       par(mfrow = c(1, 1))
          
     })
-    
-   output$mytext = renderText({
-       print(input$scenario_variable[1])
-       print(length(input$scenario_variable))
-       })
-
 
 
   
