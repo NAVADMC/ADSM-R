@@ -554,7 +554,7 @@ daily_graphdatprep = select(daily_dat$exposures, Scenario, Source_ID, Recipient_
                        "Production Type:", MapMaster$ProductionType,
                        "Size:",MapMaster$UnitSize)
       
-      mapWorld = map("world", fill = TRUE, plot = F)# data of world polygon
+      mapWorld = maps::map("world", fill = TRUE, plot = F)# data of world polygon
 
 # #Daily exposure of a specific iteration
 # dex1<-read.csv("ModSim18_CC_Moore_21Late_files/ModSim18_CC_Moore_21Late/daily_exposures_25.csv")
