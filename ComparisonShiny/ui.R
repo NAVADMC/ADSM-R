@@ -8,7 +8,7 @@ ui <- fluidPage(
   
       sidebarLayout(
     sidebarPanel(
-      checkboxGroupInput("scenario_variable", "Scenarios to compare:", c("Early","Late", "Vx Early","Vx Late")),
+      checkboxGroupInput("scenario_variable", "Scenarios to compare:", c(names(dirpath)),
       tags$style(type="text/css", "textarea {width:100%}") ,
       tags$textarea(id="my_textarea", rows=10,placeholder =  "Comment...", value=""),
       
