@@ -155,7 +155,7 @@ server <- function(input, output, session) {
     })
     
    output$mytext = renderText({
-       print(input$scenario_variable)
+       print(input$scenario_variable[1])
        })
 
 
