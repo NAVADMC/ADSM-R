@@ -825,32 +825,32 @@ daily_graphdatprep = select(daily_dat$exposures, Scenario, Source_ID, Recipient_
 # FD$Scenario<-c(rep("Late",nrow(FarmDepo)),rep("Early",nrow(FarmDepo2)),rep("Vx Late",nrow(FarmDepo3)),rep("Vx Early",nrow(FarmDepo4)))
 # 
 # 
-#Scenario 3
-VaccUnit3<-dbSendQuery(conCCMooreVX21Late,
-                       statement = paste("SELECT iteration, day, last_day, vaccU",
-                                         "FROM  Results_dailybyproductiontype r",
-                                         "WHERE 1=1",
-                                         "AND production_type_id is null",
-                                         "and last_day = 1", "order by 1"))
-
-
-#creates the data frame from where analyses will be done
-VaccUnit3<-dbFetch(VaccUnit3)
-
-
+# #Scenario 3
+# VaccUnit3<-dbSendQuery(conCCMooreVX21Late,
+#                        statement = paste("SELECT iteration, day, last_day, vaccU",
+#                                          "FROM  Results_dailybyproductiontype r",
+#                                          "WHERE 1=1",
+#                                          "AND production_type_id is null",
+#                                          "and last_day = 1", "order by 1"))
+# 
+# 
+# #creates the data frame from where analyses will be done
+# VaccUnit3<-dbFetch(VaccUnit3)
+# 
+# 
 #Scenario 4
-VaccUnit4<-dbSendQuery(conCCMooreVxEarly,
-                       statement = paste("SELECT iteration, day, last_day, vaccU",
-                                         "FROM  Results_dailybyproductiontype r",
-                                         "WHERE 1=1",
-                                         "AND production_type_id is null",
-                                         "and last_day = 1", "order by 1"))
-
-
-#creates the data frame from where analyses will be done
-VaccUnit4<-dbFetch(VaccUnit4)
-VaccUnit<-rbind(VaccUnit3,VaccUnit4)
-VaccUnit$Scenario<-c(rep("Vx Late",nrow(VaccUnit3)),rep("Vx Early",nrow(VaccUnit4)))
+# VaccUnit4<-dbSendQuery(conCCMooreVxEarly,
+#                        statement = paste("SELECT iteration, day, last_day, vaccU",
+#                                          "FROM  Results_dailybyproductiontype r",
+#                                          "WHERE 1=1",
+#                                          "AND production_type_id is null",
+#                                          "and last_day = 1", "order by 1"))
+# 
+# 
+# #creates the data frame from where analyses will be done
+# VaccUnit4<-dbFetch(VaccUnit4)
+# VaccUnit<-rbind(VaccUnit3,VaccUnit4)
+# VaccUnit$Scenario<-c(rep("Vx Late",nrow(VaccUnit3)),rep("Vx Early",nrow(VaccUnit4)))
 
           
 
