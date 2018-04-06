@@ -222,7 +222,7 @@ adsmr_query = function(db){
                                                     "and last_day = 1", "order by 1"))
   tFarmOut <- dbFetch(totfarmsOutb)
   dbClearResult(totfarmsOutb)
-  cat("totfarmsOutb query completed... \n")
+  cat("tfarmsOut query completed... \n")
   
   farmsDepo <- dbSendQuery(db, statement = paste("SELECT iteration, day, last_day, descU, descA",
                                                  "FROM  Results_dailybyproductiontype r",
@@ -232,15 +232,26 @@ adsmr_query = function(db){
                                                  "order by 1"))
   farmDepo <- dbFetch(farmsDepo)
   dbClearResult(farmsDepo)
-  cat("farmsDepo query completed... \n")
+  cat("farmDepo query completed... \n")
   
   transitionStateDaily <- dbSendQuery(db, statement = paste("SELECT day, tsdUSusc, tsdULat, tsdUSubc, tsdUClin, tsdUNImm, tsdUVImm, tsdUDest", 
                                                             "FROM  Results_dailybyproductiontype r",
                                                             "WHERE production_type_id is null",
                                                             "and iteration = 204"))
+  
   tranStateDaily <- dbFetch(transitionStateDaily)
   dbClearResult(transitionStateDaily)
-  cat("transitionStateDaily query completed... \n")
+  cat("tranStateDaily query completed... \n")
+  
+  vaccinationUnit <- dbSendQuery(db, statement = paste("SELECT iteration, day, last_day, vaccU",
+                                                "FROM  Results_dailybyproductiontype r",
+                                                "WHERE 1=1",
+                                                "AND production_type_id is null",
+                                                "and last_day = 1", "order by 1"))
+  vaccUnit <- dbFetch(vaccinationUnit)
+  dbClearResult(vaccinationUnit)
+  cat("vaccUnit query completed... \n")
+  
   cat(paste0(rep("-", 60), collapse = ""), "\n")
   
   #### Aggregate into a named list
@@ -248,12 +259,14 @@ adsmr_query = function(db){
                    epiCur,
                    tFarmOut,
                    farmDepo,
-                   tranStateDaily)
+                   tranStateDaily,
+                   vaccUnit)
   names(fetchlist) = c("outDur",
                        "epiCur",
                        "tFarmOut",
                        "farmDepo",
-                       "tranStateDaily")
+                       "tranStateDaily",
+                       "vaccUnit")
   
   return(fetchlist)
   
@@ -812,59 +825,32 @@ daily_graphdatprep = select(daily_dat$exposures, Scenario, Source_ID, Recipient_
 # FD$Scenario<-c(rep("Late",nrow(FarmDepo)),rep("Early",nrow(FarmDepo2)),rep("Vx Late",nrow(FarmDepo3)),rep("Vx Early",nrow(FarmDepo4)))
 # 
 # 
-# #Scenario 3
-# 
-# VaccUnit3<-dbSendQuery(conCCMooreVX21Late,
-#                        
-#                        statement = paste("SELECT iteration, day, last_day, vaccU",
-#                                          
-#                                          "FROM  Results_dailybyproductiontype r",
-#                                          
-#                                          "WHERE 1=1",
-#                                          
-#                                          "AND production_type_id is null",
-#                                          
-#                                          "and last_day = 1", "order by 1"))
-# 
-# 
-# 
-# 
-# 
-# #creates the data frame from where analyses will be done
-# 
-# VaccUnit3<-dbFetch(VaccUnit3)
-# 
-# 
-# 
-# 
-# 
-# #Scenario 4
-# 
-# VaccUnit4<-dbSendQuery(conCCMooreVxEarly,
-#                        
-#                        statement = paste("SELECT iteration, day, last_day, vaccU",
-#                                          
-#                                          "FROM  Results_dailybyproductiontype r",
-#                                          
-#                                          "WHERE 1=1",
-#                                          
-#                                          "AND production_type_id is null",
-#                                          
-#                                          "and last_day = 1", "order by 1"))
-# 
-# 
-# 
-# 
-# 
-# #creates the data frame from where analyses will be done
-# 
-# VaccUnit4<-dbFetch(VaccUnit4)
-# 
-# VaccUnit<-rbind(VaccUnit3,VaccUnit4)
-# 
-# VaccUnit$Scenario<-c(rep("Vx Late",nrow(VaccUnit3)),rep("Vx Early",nrow(VaccUnit4)))
-# 
+#Scenario 3
+VaccUnit3<-dbSendQuery(conCCMooreVX21Late,
+                       statement = paste("SELECT iteration, day, last_day, vaccU",
+                                         "FROM  Results_dailybyproductiontype r",
+                                         "WHERE 1=1",
+                                         "AND production_type_id is null",
+                                         "and last_day = 1", "order by 1"))
 
+
+#creates the data frame from where analyses will be done
+VaccUnit3<-dbFetch(VaccUnit3)
+
+
+#Scenario 4
+VaccUnit4<-dbSendQuery(conCCMooreVxEarly,
+                       statement = paste("SELECT iteration, day, last_day, vaccU",
+                                         "FROM  Results_dailybyproductiontype r",
+                                         "WHERE 1=1",
+                                         "AND production_type_id is null",
+                                         "and last_day = 1", "order by 1"))
+
+
+#creates the data frame from where analyses will be done
+VaccUnit4<-dbFetch(VaccUnit4)
+VaccUnit<-rbind(VaccUnit3,VaccUnit4)
+VaccUnit$Scenario<-c(rep("Vx Late",nrow(VaccUnit3)),rep("Vx Early",nrow(VaccUnit4)))
 
           
 
