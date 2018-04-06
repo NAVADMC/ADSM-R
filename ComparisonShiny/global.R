@@ -445,7 +445,7 @@ adsmr_chooseiter = function(csvpath = character(0),
   cat(paste0("Reading all events.csv files took ", round(endtime - starttime, 1), " seconds"))
   
   iter_chosen = lapply(csv_nfarms, function(x){
-    sample(which(x >= do.call(calctype, list(x)) - 1 & x <= do.call(calctype, list(x)) + 1), 1)
+    sample(which(x >= do.call(calctype, list(x)) - 2.5 & x <= do.call(calctype, list(x)) + 2.5), 1)
   })
   
   csv_readin = mapply(function(z, y, x){
