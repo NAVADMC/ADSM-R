@@ -145,9 +145,10 @@ server <- function(input, output, session) {
       
      par(mfrow = c(1, length(input$scenario_variable)))
      for (i in 1:length(input$scenario_variable)){
-         net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
+         # net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
 
-         plot(net2, layout=layout.fruchterman.reingold, margin = -0.5, vertex.label=NA, main=input$scenario_variable[i])
+         # plot(net2, layout=layout.fruchterman.reingold, margin = -0.5, vertex.label=NA, main=input$scenario_variable[i])
+         plot(1:10)
         }
       
       par(mfrow = c(1, 1))
@@ -156,6 +157,7 @@ server <- function(input, output, session) {
     
    output$mytext = renderText({
        print(input$scenario_variable[1])
+       print(length(input$scenario_variable))
        })
 
 
