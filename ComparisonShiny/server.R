@@ -143,44 +143,18 @@ server <- function(input, output, session) {
   
   output$myplot8 <- renderPlot({
       
+     par(mfrow = c(1, length(input$scenario_variable)))
      for (i in 1:length(input$scenario_variable)){
          net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
 
          plot(net2, layout=layout.fruchterman.reingold, margin = -0.5, vertex.label=NA, main=input$scenario_variable[i])
         }
+      
+      par(mfrow = c(1, 1))
          
     })
 
-  output$myplot9 <- renderPlot({
-      
-    S1farm = filter(daily_graphdatprep, Scenario == "Late")
 
-    net1<-graph.data.frame(S1farm[S1farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Late"
-
-    plot(net1,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Late")
-
-    })
-   
-  output$myplot10 <- renderPlot({
-      
-      S4farm = filter(daily_graphdatprep, Scenario == "Late")
-
-    net4<-graph.data.frame(S4farm[S4farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Early"
-
-    plot(net4,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Early")
-
-  })
-
-
-  output$myplot11 <- renderPlot({
-      
-      S3farm = filter(daily_graphdatprep, Scenario == "Late")
-
-  net3<-graph.data.frame(S3farm[S3farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Late"
-
-  plot(net3,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Late")
-
-  })
 
   
   
