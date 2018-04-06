@@ -451,7 +451,7 @@ adsmr_chooseiter = function(csvpath = character(0),
   csv_stacked = list()
   for (i in 1:length(csvtype)){
     csv_stacked[[i]] = bind_rows(csv_labeled[c(grep(paste0("_", csvtype[i]), names(csv_labeled)))])
-    if (all.equal(c("Lat", "Lon") %in% names(csv_stacked[[i]]), c(TRUE, TRUE))) {
+    if (identical(c("Lat", "Lon") %in% names(csv_stacked[[i]]), c(TRUE, TRUE))) {
       dplyr::rename(csv_stacked[[i]], S_Lon = Lon, S_Lat = Lat)}
   }  
   
