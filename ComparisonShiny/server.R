@@ -153,6 +153,10 @@ server <- function(input, output, session) {
       par(mfrow = c(1, 1))
          
     })
+    
+   output$mytext = rederText({
+       print(input$scenario_variable)
+       })
 
 
 
