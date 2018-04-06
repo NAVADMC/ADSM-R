@@ -73,7 +73,7 @@ server <- function(input, output, session) {
   output$myplot3 <- renderPlotly({
 
     
-    EPI<-ggplot(dbtable$epiCur[(dbtable$epiCur$Scenario) %in% input$scenario_variable,],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
+    EPI<-ggplot(dbtable$epiCur[(dbtable$epiCur$Scenario) %in% input$scenario_variable,],aes(x=day, y=SuminfnU, group=Scenario, colour=Scenario))+
       geom_line(size=1)+
       labs(title="Epidemic Curve",x="Time (days)", y = "New Infected Units")
     
@@ -120,7 +120,7 @@ server <- function(input, output, session) {
   
   output$myplot6.5 <- renderPlotly({
     
-    p6.5<-qplot(Scenario, vaccU, geom=c("boxplot"), data=VaccUnit[(VaccUnit$Scenario)%in% input$scenario_variable,],
+    p6.5<-qplot(Scenario, vaccU, geom=c("boxplot"), data=dbtable$vaccUnit[(dbtable$vaccUnit$Scenario)%in% input$scenario_variable,],
         fill=Scenario, main="Units Vaccinated",
         xlab="", ylab="Farms vaccinated")
     
@@ -143,7 +143,7 @@ server <- function(input, output, session) {
   
   output$myplot8 <- renderPlot({
 
-     S2farm = filter(daily_graphdatprep, Scenario == "Scenario2")
+     S2farm = filter(daily_graphdatprep, Scenario == "Late")
       
      net2<-graph.data.frame(S2farm[S2farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Early"
 
@@ -153,7 +153,7 @@ server <- function(input, output, session) {
 
   output$myplot9 <- renderPlot({
       
-    S1farm = filter(daily_graphdatprep, Scenario == "Scenario1")
+    S1farm = filter(daily_graphdatprep, Scenario == "Early")
 
     net1<-graph.data.frame(S1farm[S1farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Late"
 
@@ -163,7 +163,7 @@ server <- function(input, output, session) {
    
   output$myplot10 <- renderPlot({
       
-    S4farm = filter(daily_graphdatprep, Scenario == "Scenario4")
+    S4farm = filter(daily_graphdatprep, Scenario == "EarlyVx")
 
     net4<-graph.data.frame(S4farm[S4farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Early"
 
@@ -174,7 +174,7 @@ server <- function(input, output, session) {
 
   output$myplot11 <- renderPlot({
       
-  S3farm = filter(daily_graphdatprep, Scenario == "Scenario3")
+  S3farm = filter(daily_graphdatprep, Scenario == "LateVx")
 
   net3<-graph.data.frame(S3farm[S3farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Late"
 
