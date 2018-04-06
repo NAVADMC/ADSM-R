@@ -146,7 +146,7 @@ server <- function(input, output, session) {
      for (i in 1:length(input$scenario_variable)){
          net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
 
-         plot(net2, layout=layout.fruchterman.reingold, margin = -0.5, vertex.label=NA, main=input$scenario_variable[i])
+         plot(net2, layout=layout.fruchterman.reingold, vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main=input$scenario_variable[i])
          # plot(1:10)
         }
       
