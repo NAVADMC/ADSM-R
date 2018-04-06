@@ -1,4 +1,4 @@
-,#Define UI for application
+#Define UI for application
 
 ui <- fluidPage(
   
