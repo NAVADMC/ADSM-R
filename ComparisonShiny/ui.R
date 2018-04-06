@@ -1,4 +1,4 @@
-#Define UI for application
+,#Define UI for application
 
 ui <- fluidPage(
   
@@ -62,7 +62,7 @@ ui <- fluidPage(
              
         tabPanel("Herd Level Analyses", 
                                   plotOutput('myplot7'),
-                 textOutput('mytext')
+                 textOutput('mytext'),
                  fluidRow(
                    column(3,plotOutput('myplot8'))
 
