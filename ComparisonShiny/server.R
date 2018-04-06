@@ -94,8 +94,7 @@ server <- function(input, output, session) {
     
   })
   
-  
-  
+   
   output$myplot5 <- renderPlotly({
        #Total Farms in outbreak
     p4<-qplot(Scenario, infcU, geom=c("boxplot"), data=dbtable$tFarmOut[(dbtable$tFarmOut$Scenario)%in% input$scenario_variable,],
@@ -143,8 +142,8 @@ server <- function(input, output, session) {
   
   output$myplot8 <- renderPlot({
       
-     par(mfrow = c(1, length(input$scenario_variable)-1))
-     for (i in 1:length(input$scenario_variable)-1){
+     par(mfrow = c(1, length(input$scenario_variable)))
+     for (i in 1:length(input$scenario_variable)){
          # net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
 
          # plot(net2, layout=layout.fruchterman.reingold, margin = -0.5, vertex.label=NA, main=input$scenario_variable[i])
