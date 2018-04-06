@@ -73,7 +73,7 @@ server <- function(input, output, session) {
   output$myplot3 <- renderPlotly({
 
     
-    EPI<-ggplot(EPICURVE[(EPICURVE$Scenario) %in% input$scenario_variable,],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
+    EPI<-ggplot(dbtable$epiCur[(dbtable$epiCur$Scenario) %in% input$scenario_variable,],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
       geom_line(size=1)+
       labs(title="Epidemic Curve",x="Time (days)", y = "New Infected Units")
     
@@ -84,7 +84,7 @@ server <- function(input, output, session) {
   
   
   output$myplot4 <- renderPlotly({
-        p1<-qplot(Scenario, diseaseDuration, geom=c("boxplot"), data=OUTBREAKDUR[(OUTBREAKDUR$Scenario)%in% input$scenario_variable,],
+        p1<-qplot(Scenario, diseaseDuration, geom=c("boxplot"), data=dbtable$outDur[(dbtable$outDur$Scenario)%in% input$scenario_variable,],
               fill=Scenario, main="Outbreak duration",
               xlab="", ylab="Duration (days)")
     gg1<-ggplotly(p1)
@@ -98,7 +98,7 @@ server <- function(input, output, session) {
   
   output$myplot5 <- renderPlotly({
        #Total Farms in outbreak
-    p4<-qplot(Scenario, infcU, geom=c("boxplot"), data=TFO[(TFO$Scenario)%in% input$scenario_variable,],
+    p4<-qplot(Scenario, infcU, geom=c("boxplot"), data=dbtable$tFarmOut[(dbtable$tFarmOut$Scenario)%in% input$scenario_variable,],
               fill=Scenario, main="Farms in outbreak",
               xlab="", ylab="Units")
     gg2<-ggplotly(p4)
@@ -110,7 +110,7 @@ server <- function(input, output, session) {
   
   output$myplot6 <- renderPlotly({
         #Farms depopulated
-    p6<-qplot(Scenario, descU, geom=c("boxplot"), data=FD[(FD$Scenario)%in% input$scenario_variable,],
+    p6<-qplot(Scenario, descU, geom=c("boxplot"), data=dbtable$farmDepo[(dbtable$farmDepo$Scenario)%in% input$scenario_variable,],
               fill=Scenario, main="Farms depopulated",
               xlab="", ylab="Units")
     gg3<-ggplotly(p6)
@@ -131,7 +131,7 @@ server <- function(input, output, session) {
   
   output$myplot7 <- renderPlot({
     
-    bp<-ggplot(Ty[(Ty$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Veterinary_action))+
+    bp<-ggplot(daily_compare[(daily_compare$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Veterinary_action))+
       geom_bar(width = 1, stat = "identity")+
       facet_grid(facets=.~Scenario)+
       xlab("") 
@@ -143,7 +143,8 @@ server <- function(input, output, session) {
   
   output$myplot8 <- renderPlot({
 
-
+     S2farm = filter(daily_graphdatprep, Scenario == "Scenario2")
+      
      net2<-graph.data.frame(S2farm[S2farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Early"
 
      plot(net2,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Early")
@@ -151,6 +152,8 @@ server <- function(input, output, session) {
     })
 
   output$myplot9 <- renderPlot({
+      
+    S1farm = filter(daily_graphdatprep, Scenario == "Scenario1")
 
     net1<-graph.data.frame(S1farm[S1farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Late"
 
@@ -159,6 +162,8 @@ server <- function(input, output, session) {
     })
    
   output$myplot10 <- renderPlot({
+      
+    S4farm = filter(daily_graphdatprep, Scenario == "Scenario4")
 
     net4<-graph.data.frame(S4farm[S4farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Early"
 
@@ -168,6 +173,8 @@ server <- function(input, output, session) {
 
 
   output$myplot11 <- renderPlot({
+      
+  S3farm = filter(daily_graphdatprep, Scenario == "Scenario3")
 
   net3<-graph.data.frame(S3farm[S3farm$Scenario %in% input$scenario_variable,],directed=F)#specified edges of a directed farm "Vx Late"
 
@@ -188,7 +195,8 @@ server <- function(input, output, session) {
        # Copy the report file to a temporary directory before processing it, in
        # case we don't have write permissions to the current working dir (which
        # can happen when deployed).
-       tempReport <- file.path("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18", "Report.Rmd")
+       # tempReport <- file.path("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18", "Report.Rmd")
+       tempreport = tempdir()
        file.copy("Report.Rmd", tempReport, overwrite = TRUE)
        
        # Set up parameters to pass to Rmd document
