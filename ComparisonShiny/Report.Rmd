@@ -88,7 +88,11 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
     Ty<-data.frame(Ty) #ggplot works with data frames
     colnames(Ty)<-c("Veterinary_action", "Var2", "Scenario","Freq")
     
-    
+    Transmission<-table(Compared_dailyExposures$Reason,Compared_dailyExposures$Scenario)
+    Tran<-data.frame(Transmission) #ggplot works with data frames
+    colnames(Tran)<-c("Transmission", "Scenario", "Freq")
+    Tran$Transmission[Tran$Transmission==""] <- NA 
+    Tran<-na.omit(Tran)
     
     S1farm<-cbind(dex1$Source_ID, dex1$Recipient_ID, dex1$Scenario)
     colnames(S1farm)<-c("SourceID","RecipientID", "Scenario")
