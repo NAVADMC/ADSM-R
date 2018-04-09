@@ -539,7 +539,8 @@ colnames(daily_compare) = c("Veterinary_action", "Var2", "Scenario","Freq")
 
 daily_comparE = data.frame(table(select(daily_dat$exposures, Reason, Scenario)))
 colnames(daily_comparE) = c("Transmission","Scenario","Freq")
-
+daily_comparE$Transmission[daily_comparE$Transmission==""] <- NA 
+daily_comparE<-na.omit(daily_comparE)
 #========================================================================================#
 #### Daily igraph data
 #========================================================================================#
