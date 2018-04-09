@@ -106,7 +106,7 @@ setwd("~/CEAH/ADSM_Missy/R code basics")
     colnames(S4farm)<-c("SourceID","RecipientID", "Scenario")
     S4farm<-as.data.frame(S4farm)
     
-    
+    daily_graphdatprep<-rbind(S1farm,S2farm,S3farm,S4farm)
       
     
 
@@ -456,24 +456,38 @@ myplot7 <- ggplot(Ty[(Ty$Scenario)%in% params$scenario_variable,], aes(x="", y=F
       xlab("") 
   myplot7
 ```
-    
-##Netwrok visualization
 
-```{r,echo=F}
-net1<-graph.data.frame(S1farm[S1farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
-  net2<-graph.data.frame(S2farm[S2farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
-  net3<-graph.data.frame(S3farm[S3farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
-  net4<-graph.data.frame(S4farm[S4farm$Scenario %in% params$scenario_variable,],directed=F)#specified edges of a directed farm
+```{r, echo=F}
+
+ #Herd Level Analyses Transmission type
+  
+myplot7.5 <-ggplot(Tran[(Tran$Scenario)%in% params$scenario_variable,], aes(x="", y=Freq, fill=Transmission))+
+      geom_bar(width = 1, stat = "identity")+
+      facet_grid(facets=.~Scenario)+
+      xlab("") 
     
-   
-    plot(net2,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Early")
-    
-    plot(net1,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Late")
-    
-    plot(net4,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Early")
-    
-    plot(net3,layout=layout.fruchterman.reingold,vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main="Vx Late")
+  myplot7.5
 ```
 
 
+##Netwrok visualization
+
+```{r, echo=F}
+
+
+  par(mfrow = c(1, length(params$scenario_variable)))
+    
+    for (i in 1:length(params$scenario_variable)){
+      
+      net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == params$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
+      
+      
+      
+      plot(net2, layout=layout.fruchterman.reingold, vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main=params$scenario_variable[i])
+      
+          }
+    
+        par(mfrow = c(1, 1))
+
+```
 
