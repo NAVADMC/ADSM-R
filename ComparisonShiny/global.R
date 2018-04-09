@@ -487,7 +487,8 @@ adsmr_chooseiter = function(csvpath = character(0),
 # #### Can get list of file paths through a file browser
 adsmr_getdirpath(inCaption = "Select all ADSM output folders (containing the .sqlite3 files) you wish to use as input")
 
-  #========================================================================================#
+
+#========================================================================================#
   #### Search for mapping data (COMEBACK: need to find out where these come from and internalize if possible)
   # DState = read_excel(adsmr_getfilepath(caption_in = "Choose the MapDStatTest.xslx file"))
   MapMaster = read_excel(adsmr_getfilepath(caption_in = "Choose the MapMaster.xslx file"))
@@ -531,6 +532,13 @@ daily_dat = adsmr_chooseiter(csvlist,
 #========================================================================================#
 daily_compare = data.frame(table(select(daily_dat$events, Type, Reason, Scenario)))
 colnames(daily_compare) = c("Veterinary_action", "Var2", "Scenario","Freq")
+
+#========================================================================================#
+#### Combine daily exposures data
+#========================================================================================#
+
+daily_comparE = data.frame(table(select(daily_dat$exposures, Reason, Scenario)))
+colnames(daily_comparE) = c("Transmission","Scenario","Freq")
 
 #========================================================================================#
 #### Daily igraph data
