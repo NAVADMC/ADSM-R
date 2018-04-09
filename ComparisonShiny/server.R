@@ -139,7 +139,16 @@ server <- function(input, output, session) {
     
   })
   
-  
+  output$myplot7.5 <- renderPlot({
+    
+    Tr<-ggplot(Tran[(Tran$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Transmission))+
+      geom_bar(width = 1, stat = "identity")+
+      facet_grid(facets=.~Scenario)+
+      xlab("") 
+    Tr
+    
+    
+  })
   output$myplot8 <- renderPlot({
       
      par(mfrow = c(1, length(input$scenario_variable)))
