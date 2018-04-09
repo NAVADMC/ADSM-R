@@ -177,8 +177,8 @@ server <- function(input, output, session) {
        # Copy the report file to a temporary directory before processing it, in
        # case we don't have write permissions to the current working dir (which
        # can happen when deployed).
-       # tempReport <- file.path("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18", "Report.Rmd")
-       tempReport = tempdir()
+       tempReport <- file.path("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18", "Report.Rmd")
+       #tempReport = tempdir()
        file.copy("Report.Rmd", tempReport, overwrite = TRUE)
        
        # Set up parameters to pass to Rmd document
