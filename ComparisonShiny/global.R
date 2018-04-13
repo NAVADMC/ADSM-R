@@ -545,11 +545,12 @@ daily_comparE = data.frame(table(select(daily_dat$exposures, Reason, Scenario)))
 colnames(daily_comparE) = c("Transmission","Scenario","Freq")
 daily_comparE$Transmission[daily_comparE$Transmission==""] <- NA 
 daily_comparE<-na.omit(daily_comparE)
+
 #========================================================================================#
 #### Daily igraph data
 #========================================================================================#
-daily_graphdatprep = select(daily_dat$exposures, Scenario, Source_ID, Recipient_ID)
-daily_graphdatprep = as.data.frame(daily_graphdatprep)
+daily_graphdatprep = select(daily_dat$exposures, Source_ID, Recipient_ID, Scenario)
+
 #========================================================================================#
 #### Map data
 #========================================================================================#
