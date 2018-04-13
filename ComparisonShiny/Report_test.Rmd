@@ -1,0 +1,160 @@
+---
+title: "Report.Rmd"
+author: "Karla Moreno"
+date: "February 7, 2018"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+params:
+    scenario_variable: NA
+    Week: NA
+    Day: NA
+always_allow_html: yes
+---
+
+# Dynamic Report
+
+# Creating a document that provides comparison of disease modeling scenarios ran in ADSM. 
+
+We created an R Markdown document that would guide the R user to explore the outputs from ADSM by modifying or expanding this basic code. 
+
+# Background about the simulation modeling of infectious diseases
+
+Describe the population, location, and disease studied, including the baseline mechanisms of transmission and control strategies that are included in each of the scenarios.
+
+## List of scenarios 
+In our example below, we will visualize outputs of two scenarios. Scenarios are simulations of disease spread where factors are modified from the baseline scenario in order to better understand its effect on the outbreak characteristics. 
+
+
+# Outbreak Characteristics
+
+Add information or description of corresponding outputs
+
+```{r, echo=F}
+
+ #Outbreak Characteristics
+    
+    EPI<-ggplot(dbtable$epiCur[(dbtable$epiCur$Scenario) %in% params$scenario_variable,],aes(x=day, y=sumInfnU, group=Scenario, colour=Scenario))+
+      geom_line(size=1)+
+      labs(title="Epidemic Curve",x="Time (days)", y = "New Infected Units")
+    
+  EPI
+
+  
+  
+myplot4 <- qplot(Scenario, diseaseDuration, geom=c("boxplot"), data=dbtable$outDur[(dbtable$outDur$Scenario) %in% params$scenario_variable,],
+              fill=Scenario, main="Outbreak duration",
+              xlab="", ylab="Duration (days)")
+  myplot4 
+  
+  
+  
+myplot5 <- qplot(Scenario, infcU, geom=c("boxplot"), data=dbtable$tFarmOut[(dbtable$tFarmOut$Scenario) %in% params$scenario_variable,],
+              fill=Scenario, main="Farms in outbreak",
+              xlab="", ylab="Units")
+  myplot5
+  
+
+myplot6 <- qplot(Scenario, descU, geom=c("boxplot"), data=dbtable$farmDepo[(dbtable$farmDepo$Scenario) %in% params$scenario_variable,],
+              fill=Scenario, main="Farms depopulated",
+              xlab="", ylab="Units")
+  myplot6  
+
+  
+myplot6.5 <- qplot(Scenario, vaccU, geom=c("boxplot"), data=dbtable$vaccUnit[(dbtable$vaccUnit$Scenario) %in% params$scenario_variable,],
+        fill=Scenario, main="Units Vaccinated",
+        xlab="", ylab="Farms vaccinated")
+    
+   myplot6.5
+```
+
+
+
+# Epidemic Spread
+
+Add information or description of corresponding outputs
+
+```{r, echo=F}
+#Epidemic Spread
+#Maps with leaflet wont be visible unless is a html file
+  
+#   # # Reactive expression for the data subsetted to what the user selected
+ filteredDataW <- 
+     MapMaster[MapMaster$Type=="Infection"& MapMaster$Week ==(params$Week),]
+
+dfW = data.frame(filteredDataW)
+m=leaflet(data = mapWorld) %>% addTiles() %>%
+  addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+ fitBounds(~min(dfW$Lon), ~min(dfW$Lat), ~max(dfW$Lon), ~max(dfW$Lat))
+m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1, data=dfW)
+
+
+myplot1 <- qplot(Type, geom=c("bar"), data=MapMaster[(MapMaster$Week)==(params$Week),],
+              fill=Type, main="Veterinary Action")+
+      theme_void()
+
+ myplot1
+
+  # # Reactive expression for the data subsetted to what the user selected
+  filteredDataD <- MapMaster[MapMaster$Type=="Infection" & MapMaster$Day ==(params$Day),]
+
+df = data.frame(filteredDataD)
+m=leaflet(data = mapWorld) %>% addTiles() %>%
+  addPolygons(weight = 1, fillColor = "white", color="grey") %>%
+ fitBounds(~min(df$Lon), ~min(df$Lat), ~max(df$Lon), ~max(df$Lat))
+m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10), color = ~palInf(Type), stroke=F, fillOpacity = 0.1, data=df)
+  
+```
+
+
+
+# Herd Level Analyses
+ 
+Add information or description of corresponding outputs
+ 
+```{r, echo=F}
+
+ #Herd Level Analyses
+  
+myplot7 <- ggplot(daily_compare[(daily_compare$Scenario)%in% params$scenario_variable,], aes(x="", y=Freq, fill=Veterinary_action))+
+      geom_bar(width = 1, stat = "identity")+
+      facet_grid(facets=.~Scenario)+
+      xlab("") 
+  myplot7
+```
+
+```{r, echo=F}
+
+ #Herd Level Analyses Transmission type
+  
+myplot7.5 <-ggplot(daily_comparE[(daily_comparE$Scenario)%in% params$scenario_variable,], aes(x="", y=Freq, fill=Transmission))+
+      geom_bar(width = 1, stat = "identity")+
+      facet_grid(facets=.~Scenario)+
+      xlab("") 
+    
+  myplot7.5
+```
+
+
+## Network visualization
+
+```{r, echo=F}
+
+
+  par(mfrow = c(1, length(params$scenario_variable)))
+    
+    for (i in 1:length(params$scenario_variable)){
+      
+      net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == params$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
+      
+      
+      
+      plot(net2, layout=layout.fruchterman.reingold, vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main=params$scenario_variable[i])
+      
+          }
+    
+        par(mfrow = c(1, 1))
+
+```
+
