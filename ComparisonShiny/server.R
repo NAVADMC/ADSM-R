@@ -180,13 +180,15 @@ server <- function(input, output, session) {
        sink()
        
        # Set up parameters to pass to Rmd document
-       rmdparams <- list(scenario_variable = input$scenario_variable,
+       params <- list(scenario_variable = input$scenario_variable,
                       Day = input$Day,
                       Week = input$week)  
          
        rmarkdown::render("adsmrmd.Rmd", 
                          output_dir = tempdir(),
-                         params = rmdparams)
+                         params = params)
+         
+      close(tempfile)
          
      }
    )
