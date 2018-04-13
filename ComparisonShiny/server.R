@@ -170,11 +170,11 @@ server <- function(input, output, session) {
   
     output$Report <- downloadHandler(
      filename = function () {
-            outappend = switch(input$format, Word='docx')
+            outappend = switch(input$format, Word='docx', PDF = 'pdf', HTML = 'html')
             paste0("ADSMRReport.", outappend)
          },
-     content = function(file) {
-       outformat = switch(input$format, Word='word_document')
+     content = function(outfile) {
+       outformat = switch(input$format, Word='word_document', PDF = 'pdf_document', HTML = 'html_document')
          
        tempfile = file("adsmrmd.Rmd")
        sink(tempfile)
@@ -187,7 +187,8 @@ server <- function(input, output, session) {
                       Week = input$week)  
          
        rmarkdown::render("adsmrmd.Rmd", 
-                         output_dir = tempdir(),
+                         #output_dir = tempdir(),
+                         output_file = outfile,
                          params = params,
                          output_format = outformat)
          
