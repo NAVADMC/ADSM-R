@@ -398,8 +398,8 @@ adsmr_getcsvpath = function(dirpath){
   # Also, take advantage of the fact that the only folder within that outer directory holds all of the .csv files
   csvpath = lapply(dirpath, function(x){
     csvpath_temp = paste0(x, "_files")
-    #csvpath_temp2 = list.files(csvpath_temp)
-    #csvpath = paste0(csvpath_temp, "/", csvpath_temp2)
+    csvpath_temp2 = list.files(csvpath_temp)
+    csvpath = paste0(csvpath_temp, "/", csvpath_temp2)
     return(csvpath_temp)
   })
   
