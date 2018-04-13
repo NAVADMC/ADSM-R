@@ -188,7 +188,6 @@ server <- function(input, output, session) {
                          output_dir = tempdir()
                          params = rmdparams)
          
-       )
      }
    )
 }
