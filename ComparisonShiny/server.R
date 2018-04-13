@@ -156,7 +156,6 @@ server <- function(input, output, session) {
          net2<-graph.data.frame(daily_graphdatprep[daily_graphdatprep$Scenario == input$scenario_variable[i],],directed=F)#specified edges of a directed farm "Early"
 
          plot(net2, layout=layout.fruchterman.reingold, vertex.size=8,edge.arrow.size=0.5, vertex.label=NA, main=input$scenario_variable[i])
-         # plot(1:10)
         }
       
       par(mfrow = c(1, 1))
@@ -171,9 +170,12 @@ server <- function(input, output, session) {
   
     output$Report <- downloadHandler(
      filename = function () {
-       switch(input$format, Word='docx')
+            outappend = switch(input$format, Word='docx')
+            paste0("ADSMRReport.", outappend)
          },
      content = function(file) {
+       outformat = switch(input$format, Word='word_document')
+         
        tempfile = file("adsmrmd.Rmd")
        sink(tempfile)
        cat(rmdfilestring)
@@ -186,7 +188,8 @@ server <- function(input, output, session) {
          
        rmarkdown::render("adsmrmd.Rmd", 
                          output_file = file,
-                         params = params)
+                         params = params,
+                         output_format = outformat)
          
       close(tempfile)
          
