@@ -13,7 +13,7 @@ ui <- fluidPage(
       tags$textarea(id="my_textarea", rows=10,placeholder =  "Comment...", value=""),
       
       # Button
-      radioButtons('format', 'Document format', c('Word', 'PDF', 'HTML'), inline = TRUE),
+      radioButtons('format', 'Document format', c('Word', 'HTML'), inline = TRUE),
       
       downloadButton('Report', "Generate report")
     ),
