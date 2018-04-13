@@ -141,7 +141,8 @@ server <- function(input, output, session) {
   
   output$myplot7.5 <- renderPlot({
     
-    Tr<-ggplot(daily_comparE[(daily_comparE$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Transmission))+
+
+      Tr<-ggplot(daily_comparE[(daily_comparE$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Transmission))+
       geom_bar(width = 1, stat = "identity")+
       facet_grid(facets=.~Scenario)+
       xlab("") 
@@ -171,11 +172,11 @@ output$myplot8 <- renderPlot({
   
     output$Report <- downloadHandler(
      filename = function () {
-            outappend = switch(input$format, Word='docx', PDF = 'pdf', HTML = 'html')
+            outappend = switch(input$format, Word='docx', HTML = 'html')
             paste0("ADSMRReport.", outappend)
          },
      content = function(outfile) {
-       outformat = switch(input$format, Word='word_document', PDF = 'pdf_document', HTML = 'html_document')
+       outformat = switch(input$format, Word='word_document', HTML = 'html_document')
          
        tempfile = file("adsmrmd.Rmd")
        sink(tempfile)
