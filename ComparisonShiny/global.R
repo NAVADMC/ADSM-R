@@ -1,4 +1,3 @@
-
 #ADSM-Shiny
 #========================================================================================#
 #========================================================================================#
@@ -8,7 +7,7 @@
 rm(list=ls())      # to clean the environment
 
 list.of.packages <- c("ggplot2", "shiny","plotly","xlsx", "jpeg","leaflet","RSQLite","DBI","knitr","gridExtra",
-                      "igraph","reshape","maps","rmarkdown","dplyr", "readxl", "tcltk2", "tidyverse", "doBy", "stringr")
+                      "igraph","reshape","maps","rmarkdown","dplyr", "readxl", "tcltk2", "tidyverse", "doBy", "stringr", "tinytex")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 
