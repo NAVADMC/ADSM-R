@@ -185,7 +185,7 @@ server <- function(input, output, session) {
                       Week = input$week)  
          
        rmarkdown::render("adsmrmd.Rmd", 
-                         output_dir = file,
+                         output_file = file,
                          params = params)
          
       close(tempfile)
