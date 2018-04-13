@@ -174,12 +174,13 @@ server <- function(input, output, session) {
        switch(input$format, Word='docx')
          },
      content = function(file) {
-       # Copy the report file to a temporary directory before processing it, in
-       # case we don't have write permissions to the current working dir (which
-       # can happen when deployed).
-       tempReport <- file.path("~/CEAH/ADSM_Missy/ADSM_Shiny/ADSM_3.6.18", "Report.Rmd")
-       #tempReport = tempdir()
-       file.copy("Report.Rmd", tempReport, overwrite = TRUE)
+       tempfile = file("adsmrmd.Rmd")
+       sink(tempfile)
+       cat(rmdskeleton)
+       sink()
+       readLines("adsmrmd.Rmd")
+       rmarkdown::render("adsmrmd.Rmd", output_dir = tempdir())
+
        
        # Set up parameters to pass to Rmd document
        params <- list(scenario_variable = input$scenario_variable,
