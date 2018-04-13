@@ -394,27 +394,28 @@ adsmr_summarizetable = function(dbtable, whichtable = c("all")){
 #}
 
 adsmr_getcsvpath = function(dirpath){
-  # Take advantage of ADSM file naming convention of stroing .csv files in "scenario_name_files" directory for scenario with name "scenario_name"
+  # Take advantage of ADSM file naming convention of stroing .csv files in "scenario_name_files" directory for scenario with name "scenario_name"  
   # Also, take advantage of the fact that the only folder within that outer directory holds all of the .csv files
-  csvpath = lapply(dirpath, function(x){
-    csvpath_temp = paste0(x, "_files")
-    csvpath_temp2 = list.files(csvpath_temp)
-    csvpath = paste0(csvpath_temp, "/", csvpath_temp2)
-    return(csvpath)
+  
+  csvpath = lapply(dirpath, function(x){    
+    csvpath_temp = paste0(x, "_files")    
+    csvpath_temp2 = list.files(csvpath_temp)    
+    csvpath = paste0(csvpath_temp, "/", csvpath_temp2)    
+    return(csvpath)    
   })
   
-  csvpath_exposures = lapply(csvpath, function(x){
-    paste0(x, "/", list.files(x, pattern = "_exposures_\\d*\\d.csv"))
-  })
-
-  str(csvpath)
-  csvpath_events = lapply(csvpath, function(x){
-    paste0(x, "/", list.files(x, pattern = "_events_\\d*\\d.csv"))
+  csvpath_exposures = lapply(csvpath, function(x){    
+    paste0(x, "/", list.files(x, pattern = "_exposures_\\d*\\d.csv"))    
   })
   
+  csvpath_events = lapply(csvpath, function(x){    
+    paste0(x, "/", list.files(x, pattern = "_events_\\d*\\d.csv"))  
+  })
+ 
   return(list(exposures = csvpath_exposures,
+              
               events = csvpath_events))
-  
+ 
 }
 
 #========================================================================================#
@@ -527,8 +528,8 @@ adsmr_disconnect(dblist)
 #========================================================================================#
 csvlist = adsmr_getcsvpath(dirpath)
 
-daily_dat = adsmr_chooseiter(csvlist, 
-                           calctype = "median")
+daily_dat = suppressWarnings(adsmr_chooseiter(csvlist, 
+                                              calctype = "median"))
 
 #========================================================================================#
 #### Combine daily events data
