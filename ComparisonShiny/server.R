@@ -129,7 +129,7 @@ server <- function(input, output, session) {
   })
   
   output$myplot7 <- renderPlot({
-    
+,    
     bp<-ggplot(daily_compare[(daily_compare$Scenario)%in% input$scenario_variable,], aes(x="", y=Freq, fill=Veterinary_action))+
       geom_bar(width = 1, stat = "identity")+
       facet_grid(facets=.~Scenario)+
