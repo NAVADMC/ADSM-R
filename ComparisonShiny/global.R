@@ -400,7 +400,7 @@ adsmr_getcsvpath = function(dirpath){
     csvpath_temp = paste0(x, "_files")
     csvpath_temp2 = list.files(csvpath_temp)
     csvpath = paste0(csvpath_temp, "/", csvpath_temp2)
-    return(csvpath_temp)
+    return(csvpath)
   })
   
   csvpath_exposures = lapply(csvpath, function(x){
