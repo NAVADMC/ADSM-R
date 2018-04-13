@@ -548,7 +548,7 @@ daily_comparE<-na.omit(daily_comparE)
 #### Daily igraph data
 #========================================================================================#
 daily_graphdatprep = select(daily_dat$exposures, Scenario, Source_ID, Recipient_ID)
-
+daily_graphdatprep = as.data.frame(daily_graphdatprep)
 #========================================================================================#
 #### Map data
 #========================================================================================#
