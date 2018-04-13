@@ -176,24 +176,18 @@ server <- function(input, output, session) {
      content = function(file) {
        tempfile = file("adsmrmd.Rmd")
        sink(tempfile)
-       cat(rmdskeleton)
+       cat(rmdfilestring)
        sink()
-       readLines("adsmrmd.Rmd")
-       rmarkdown::render("adsmrmd.Rmd", output_dir = tempdir())
-
        
        # Set up parameters to pass to Rmd document
-       params <- list(scenario_variable = input$scenario_variable,
+       rmdparams <- list(scenario_variable = input$scenario_variable,
                       Day = input$Day,
-                      Week = input$week)
-
-       
-       # Knit the document, passing in the `params` list, and eval it in a
-       # child of the global environment (this isolates the code in the document
-       # from the code in this app).
-       rmarkdown::render(tempReport, output_file = file,
-                         params = params,
-                         envir = new.env(parent = globalenv())
+                      Week = input$week)  
+         
+       rmarkdown::render("adsmrmd.Rmd", 
+                         output_dir = tempdir()
+                         params = rmdparams)
+         
        )
      }
    )
