@@ -149,7 +149,8 @@ server <- function(input, output, session) {
     
     
   })
-  output$myplot8 <- renderPlot({
+
+output$myplot8 <- renderPlot({
       
      par(mfrow = c(1, length(input$scenario_variable)))
      for (i in 1:length(input$scenario_variable)){
@@ -187,8 +188,9 @@ server <- function(input, output, session) {
                       Week = input$week)  
          
        rmarkdown::render("adsmrmd.Rmd", 
-                         output_dir = tempdir(),
+                         #output_dir = tempdir(),
                          #output_file = outfile,
+                         output_file = file,
                          params = params,
                          output_format = outformat)
          
