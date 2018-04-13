@@ -403,8 +403,6 @@ adsmr_getcsvpath = function(dirpath){
     return(csvpath_temp)
   })
   
-  browser()
-  
   csvpath_exposures = lapply(csvpath, function(x){
     paste0(x, "/", list.files(x, pattern = "_exposures_\\d*\\d.csv"))
   })
