@@ -15,15 +15,15 @@ always_allow_html: yes
 
 # Dynamic Report
 
-#Creating a document that provides comparison of disease modeling scenarios ran in ADSM. 
+# Creating a document that provides comparison of disease modeling scenarios ran in ADSM. 
 
 We created an R Markdown document that would guide the R user to explore the outputs from ADSM by modifying or expanding this basic code. 
 
-#Background about the simulation modeling of infectious diseases
+# Background about the simulation modeling of infectious diseases
 
-###Describe the population, location, and disease studied, including the baseline mechanisms of transmission and control strategies that are included in each of the scenarios.
+### Describe the population, location, and disease studied, including the baseline mechanisms of transmission and control strategies that are included in each of the scenarios.
 
-##List of scenarios 
+## List of scenarios 
 In our example below, we will visualize outputs of two scenarios. Scenarios are simulations of disease spread where factors are modified from the baseline scenario in order to better understand its effect on the outbreak characteristics. 
 
 ```{r, include=F}
@@ -364,7 +364,7 @@ mapWorld = map("world", fill = TRUE, plot = F)# data of world polygon
 
 
 
-#Outbreak Characteristics
+# Outbreak Characteristics
 
 Add information or description of corresponding outputs
 
@@ -408,7 +408,7 @@ myplot6.5 <- qplot(Scenario, vaccU, geom=c("boxplot"), data=VaccUnit[(VaccUnit$S
 
 
 
-#Epidemic Spread
+# Epidemic Spread
 
 Add information or description of corresponding outputs
 
@@ -446,7 +446,7 @@ m %>% addCircleMarkers(~Lon, ~Lat, popup=content, radius= ~ifelse(UnitSize,6,10)
 
 
 
-#Herd Level Analyses
+# Herd Level Analyses
  
 Add information or description of corresponding outputs
  
@@ -474,7 +474,7 @@ myplot7.5 <-ggplot(Tran[(Tran$Scenario)%in% params$scenario_variable,], aes(x=""
 ```
 
 
-##Netwrok visualization
+## Netwrok visualization
 
 ```{r, echo=F}
 
