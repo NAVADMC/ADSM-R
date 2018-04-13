@@ -188,8 +188,8 @@ output$myplot8 <- renderPlot({
                       Week = input$week)  
          
        rmarkdown::render("adsmrmd.Rmd", 
-                         output_dir = tempdir(),
-                         #output_file = outfile,
+                         #output_dir = tempdir(),
+                         output_file = outfile,
                          #output_file = file,
                          params = params,
                          output_format = outformat)
