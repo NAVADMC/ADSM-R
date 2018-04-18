@@ -101,7 +101,7 @@ adsmr_getdirpath = function(inCaption){
                                      command = tbtkdestroy)
   
   ## Set the interactive window title and lay out components
-  tktitle(tb_tkwin) = "TB model 2.0"
+  tktitle(tb_tkwin) = "ADSM R"
   tkgrid(tk2label(tb_tkwin, text = "Enter the number of scenarios \n you want to compare:"),
          tb_tkwin$env$in_nComparisons,
          columnspan = 2,
